@@ -8,41 +8,41 @@
 using namespace std;  
 int main()
 {
-	//Õâ¶Î×¢ÊÍ´úÂëÎªÍ¨¹ıÑµÁ·¼¯²úÉúË÷Òı½á¹¹£¬Ê±¼ä½Ï³¤,ÒÑ½«ÔËĞĞ¹ıµÄ½á¹¹±£´æ³ÉÁËÎÄ¼ş£¬Ö±½Ó´ÓÎÄ¼ş¶ÁÈ¡¼´¿É
+	//è¿™æ®µæ³¨é‡Šä»£ç ä¸ºé€šè¿‡è®­ç»ƒé›†äº§ç”Ÿç´¢å¼•ç»“æ„ï¼Œæ—¶é—´è¾ƒé•¿,å·²å°†è¿è¡Œè¿‡çš„ç»“æ„ä¿å­˜æˆäº†æ–‡ä»¶ï¼Œç›´æ¥ä»æ–‡ä»¶è¯»å–å³å¯
 	/*vector<vector<float>> dataset;
 	int k1, k2, m;
 	load_from_file(dataset, "siftsmall_base.fvecs");
-	cout <<"ÇëÊäÈë´Ö²Ú·ÖÀà¸öÊı£¬·Ö×éÊı,·Ö×é¾ÛÀà¸öÊı¡£Ã¿Ò»Ïî¾ùÎª2µÄÕûÊı´ÎÃİ" << endl;
+	cout <<"è¯·è¾“å…¥ç²—ç³™åˆ†ç±»ä¸ªæ•°ï¼Œåˆ†ç»„æ•°,åˆ†ç»„èšç±»ä¸ªæ•°ã€‚æ¯ä¸€é¡¹å‡ä¸º2çš„æ•´æ•°æ¬¡å¹‚" << endl;
 	cin >> k1 >> m >> k2;
 	index<float> dataSet(dataset,k1,k2,m);
-	dataset.swap(vector<vector<float>>());  // ÊÍ·ÅÄÚ´æ¿Õ¼ä
+	dataset.swap(vector<vector<float>>());  // é‡Šæ”¾å†…å­˜ç©ºé—´
 	dataSet.buildindex();
 	dataSet.save_index("dataindex4.txt");*/
 	long long start, finish;
 	long long total;
-	string filename = "dataindex3.txt";    //¶ÔÓ¦²ÎÊıÎªk1=1024,m=8,k3=256
-	//string filename = "dataindex1.txt";  //¶ÔÓ¦²ÎÊıÎªk1=1024,m=4,k3=256
-	//string filename = "dataindex2.txt";  //¶ÔÓ¦²ÎÊıÎªk1=256,m=8,k3=256
+	string filename = "dataindex3.txt";    //å¯¹åº”å‚æ•°ä¸ºk1=1024,m=8,k3=256
+	//string filename = "dataindex1.txt";  //å¯¹åº”å‚æ•°ä¸ºk1=1024,m=4,k3=256
+	//string filename = "dataindex2.txt";  //å¯¹åº”å‚æ•°ä¸ºk1=256,m=8,k3=256
 	vector<vector<float>> query;
 	vector<vector <int >> result;
 	index<float> data;
-	load_index_file(data, filename);                        //´Ófilename¶ÔÓ¦ÎÄ¼şÖĞ¶ÁÈ¡Ë÷Òı½á¹¹
+	load_index_file(data, filename);                        //ä»filenameå¯¹åº”æ–‡ä»¶ä¸­è¯»å–ç´¢å¼•ç»“æ„
 	load_from_file(query, "siftsmall_query.fvecs");
 	IVFADC_index<float> IVF(data,query);
-	/*»ñÈ¡ËÑË÷Ê±¼ä*/
+	/*è·å–æœç´¢æ—¶é—´*/
 	start = GetTickCount();
-	result=IVF.PQsearch(16);//ËÑË÷½Ó¿Ú w=16
+	result=IVF.PQsearch(16);//æœç´¢æ¥å£ w=16
 	finish = GetTickCount();
 	total = finish - start;
 	cout << total <<"ms"<< endl;
-	//ÏÂÃæµÄ´úÂëÎª¼ÆËãrecall@R
+	//ä¸‹é¢çš„ä»£ç ä¸ºè®¡ç®—recall@R
 	float count[100];
 	vector <vector <int>> correct;
 	load_from_file(correct, "siftsmall_groundtruth.ivecs");
 	for (int i = 0; i < query.size(); i++)
 	{
 		count[i] = 0;
-		for (int R = 0; R < 100; j++)   //RÖµ¿ÉÍ¨¹ı¸Ä±ä±äÁ¿RÀ´ÊµÏÖ
+		for (int R = 0; R < 100; R++)   //Rå€¼å¯é€šè¿‡æ”¹å˜å˜é‡Ræ¥å®ç°
 		{
 				if (result[i].at(R) == correct[i].at(0))
 				{
@@ -56,7 +56,7 @@ int main()
 		sum += count[i];
 	}
 	cout << sum / 100 << endl;
-	//ÎªÈÃ½á¹ûÍ£ÁôÔÚ¿ØÖÆÌ¨£¬ÓÃÁËgetchar()
+	//ä¸ºè®©ç»“æœåœç•™åœ¨æ§åˆ¶å°ï¼Œç”¨äº†getchar()
 	getchar();
 	return 0;
 }
